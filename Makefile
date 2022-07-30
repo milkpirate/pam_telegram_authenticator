@@ -1,8 +1,9 @@
 pam_telegram_authenticator.o: pam_telegram_authenticator.c
 	gcc -fPIC -lcurl -fno-stack-protector -c pam_telegram_authenticator.c
+	ld -lcurl -x --shared -o pam_telegram_authenticator.so pam_telegram_authenticator.o
 
 install: pam_telegram_authenticator.o
-	ld -lcurl -x --shared -o /lib64/security/pam_telegram_authenticator.so pam_telegram_authenticator.o
+	install pam_telegram_authenticator.so /lib64/security/pam_telegram_authenticator.so
 
 uninstall:
 	rm -f /lib64/security/pam_telegram_authenticator.so
