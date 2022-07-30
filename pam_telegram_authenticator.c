@@ -56,7 +56,7 @@
  *  - MAXIMUM NUMBER OF SAFE CODES THAT CAN BE LOADED FROM FILE 
  *    (DEFINES THE SIZE OF THE ARRAY TO HOLD SAFE CODES)
  */
-#define MAX_CODE_LENGTH 5
+#define MAX_CODE_LENGTH 6
 #define MAX_SAFE_CODES 32
 
 /*
@@ -646,7 +646,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	int rval;
 	const char* username;
 
-
 	/*
 	 * MODULE PARAMETERS
 	 */
@@ -655,25 +654,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	char proxy_post_string[512]="!";
 	int cache_timeout=0;
 	int enable_safe_codes=0;
-
-
-	/*
-	 * USER PROVIDED INFO
-	 */
-	char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="!";
-	char proxy_password[MAX_PROVIDED_INFORMATION_SIZE]="!";
-	char chatid[MAX_PROVIDED_INFORMATION_SIZE];
-	char botkey[MAX_TELEGRAM_BOTKEY_LEN];
-	char safe_codes[MAX_SAFE_CODES][MAX_CODE_LENGTH+1]; /* +1 to hold '\0' */
-
-
-	/*
-	 * AUXILIARY VARS
-	 */
-	char* code;
-	unsigned long timestamp;
-	char * user_conf_file_path = (char *) malloc(512);
-	char zebulon_not_used_tracking_01=0;
 
 	/*
 	 * PAM VARIABLES
@@ -712,65 +692,36 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 		return rval;
 	}
 
-
-	/*
-	 * DO NOT SEND CODE FOR ROOT USER - AT LEAST FOR NOW - WE DON'T WANT TO LOCK ROOT OUT 
-	 */
-	if (strcmp("root",username) == 0)
-		return PAM_SUCCESS;
-
-
-	/*
-	 * READ USER CONFIGURATION FILE
-	 */
-	rval = read_user_configuration_file(username,
-					    dir,
-					    user_conf_file_path,
-					    chatid,
-					    botkey,
-					    proxy_username,
-					    proxy_password,
-					    enable_safe_codes,
-					    safe_codes);
-
-
-	/*
-	 * IF read_user_configuration RETURNED -1,
-	 * DISABLE TWO FACTOR AUTHENTICATION
-	 */
-	if (rval == -1) {
-		return PAM_SUCCESS;
-	}
-
-
-	/*
-	 * CHECK IF PREVIOUSLY ENTERED CODE IS STILL VALID
-	 */
-	int sent_code;
-	int do_i_need_a_safe_code=0;
-	if (check_cache(dir, username, cache_timeout, &timestamp) != 2) {
-		/*
-		 * IF NOT, GENERATE AND SEND CODE TO TELEGRAM
-		 */
-		rval = send_code(chatid,
-				 botkey,
-				 &sent_code,
-				 proxy_url,
-				 proxy_post_string,
-				 proxy_username,
-				 proxy_password,
-				 pamh);
-
-		/*
-		 * IF SEND_CODE() FAILED, ASK FOR SAFE CODES (SET VARIABLE TO FLAG IT)
-		 */
-		if (rval != 0) {
-			do_i_need_a_safe_code=1;
-		}
-	}
-	else {
-		return PAM_SUCCESS;
-	}
+//    /*
+//     * USER PROVIDED INFO
+//     */
+//    char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="!";
+//    char proxy_password[MAX_PROVIDED_INFORMATION_SIZE]="!";
+//    char chatid[MAX_PROVIDED_INFORMATION_SIZE];
+//    char botkey[MAX_TELEGRAM_BOTKEY_LEN];
+//    char safe_codes[MAX_SAFE_CODES][MAX_CODE_LENGTH+1]; /* +1 to hold '\0' */
+//
+//	/*
+//	 * READ USER CONFIGURATION FILE
+//	 */
+//	rval = read_user_configuration_file(username,
+//					    dir,
+//					    user_conf_file_path,
+//					    chatid,
+//					    botkey,
+//					    proxy_username,
+//					    proxy_password,
+//					    enable_safe_codes,
+//					    safe_codes);
+//
+//
+//	/*
+//	 * IF read_user_configuration RETURNED -1,
+//	 * DISABLE TWO FACTOR AUTHENTICATION
+//	 */
+//	if (rval == -1) {
+//		return PAM_SUCCESS;
+//	}
 
 	/*
 	 * ASK USER TO TYPE THE RECEIVED CODE
@@ -783,51 +734,53 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	/*
 	 * CHECK IF USER TYPED THE CORRECT CODE
 	 */
-	if (resp) {
 
+    if (!resp) {
+        return PAM_AUTH_ERR;
+    }
 
+    /*
+     * ASK FOR SAFE CODE WHEN NEEDED
+     */
+    if (do_i_need_a_safe_code) {
+        if (safe_codes[0] != NULL)
+            sent_code=atoi(safe_codes[0]); /* Always get the first entry.
+                            * When a code is used, it's commented
+                            * out, so it's not going to be read
+                            * again.
+                            */
+    }
 
-		/*
-		 * ASK FOR SAFE CODE WHEN NEEDED
-		 */
-		if (do_i_need_a_safe_code) {
-			if (safe_codes[0] != NULL)
-				sent_code=atoi(safe_codes[0]); /* Always get the first entry.
-								* When a code is used, it's commented
-								* out, so it's not going to be read 
-								* again.
-								*/ 
-		}
+    char* code = resp[0].resp;
+    resp[0].resp = NULL;
 
-		code = resp[0].resp;
-		resp[0].resp = NULL;
+    if (atoi(code) != sent_code) {
+        return PAM_AUTH_ERR;
+    }
 
+    // TODO: strip whitespaces
+    /*
+     * WRITE CODE CACHE IF SUCCESSFUL
+     */
+    unsigned long timestamp;
+    write_cache(dir,username,timestamp);
 
-		if (atoi(code) == sent_code) {
-			/*
-			 * WRITE CODE CACHE IF SUCESSFUL
-			 */
-			write_cache(dir,username,timestamp);
+    /*
+     * PASSING PARAMETER FROM AUTH REALM TO SESSION REALM
+     */
+    if (do_i_need_a_safe_code) {
+        //rval = pam_set_data(pamh, "pam_2fa_code", (void *) code, NULL);
 
-			/*
-			 * PASSING PARAMETER FROM AUTH REALM TO SESSION REALM
-			 */
-			if (do_i_need_a_safe_code) {
-				//rval = pam_set_data(pamh, "pam_2fa_code", (void *) code, NULL);
-				rval = pam_set_data(pamh, "pam_2fa_user_conf_filename", (void *) user_conf_file_path, NULL);
-			}
+        /*
+         * AUXILIARY VARS
+         */
 
-			return PAM_SUCCESS;
-		}
-		else {
-			return PAM_AUTH_ERR;
-		}
-	}
-	else {
-		return PAM_CONV_ERR;
-	}
+        char * user_conf_file_path = (char *) malloc(512);
 
-	return PAM_AUTH_ERR;
+        rval = pam_set_data(pamh, "pam_2fa_user_conf_filename", (void *) user_conf_file_path, NULL);
+    }
+
+    return PAM_SUCCESS;
 }
 
 /*
