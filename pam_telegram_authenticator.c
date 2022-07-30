@@ -115,14 +115,10 @@ int trim_string(char* str) {
 //    }
 }
 
-char *s1 = "slkjdf\nsdfj\n"
+char *s1 = "slkjdf\nsdfj\n";
 trim_string(s1);
 assert(ustr_cmp_cstr_eq(s1, "slkjdf\nsdfj"));
 
-int remove_whitespaces(char* ) {
-    while (*q) q++;
-    do { q--; } while (isspace(* q));
-}
 
 /*
  *  COLLECT INFORMATION USING PAM 
@@ -631,7 +627,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	rval = pam_get_user(pamh, &username, "Username: ");
 
 	if (rval != PAM_SUCCESS) { return rval; }
-	if (rval != PAM_SUCCESS) { return rval; de}
 
     /*
      * USER PROVIDED INFO
@@ -645,6 +640,8 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	/*
 	 * READ USER CONFIGURATION FILE
 	 */
+
+    char * user_conf_file_path = (char *) malloc(512);
 	rval = read_user_configuration_file(username,
 					    dir,
 					    user_conf_file_path,
@@ -746,7 +743,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
          * AUXILIARY VARS
          */
 
-        char * user_conf_file_path = (char *) malloc(512);
         rval = pam_set_data(pamh, "pam_2fa_user_conf_filename", (void *) user_conf_file_path, NULL);
     }
 
