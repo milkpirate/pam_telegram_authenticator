@@ -22,7 +22,7 @@
 
 /**********************************************************************************************
  * This is a toy 2-Factor-Authentication PAM module that uses Telegram's API to send a
- * verfication code to a Telegram BOT. It's described as a toy because it was neither tested 
+ * verification code to a Telegram BOT. It's described as a toy because it was neither tested
  * in a production environment nor with GUI display managers like lightdm, GNOME, etc..
  * It works well in a non-gui local login terminal as well as with SSH.
  **********************************************************************************************/
@@ -35,11 +35,11 @@
  */
 
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <security/pam_modules.h>
-#include <security/pam_ext.h>
 #include <time.h>
 #include <pwd.h>
 #include <fcntl.h>
@@ -99,25 +99,13 @@ int trim_string(char* str) {
     if (!line_break) { return 0; }
     *line_break = '\0';
     return 0;
+}
 
-//    char *s1 = "slkjdf\nsdfj\n";
-//    trim_string(s1);
-//    assert(ustr_cmp_cstr_eq(s1, "slkjdf\nsdfj"));
-
-
-//	int index=0;
-//	int len = 0;
-//
-//    if (str == NULL) { return 0; }
-//
-//    len = strlen(str);
-//    while(str[index] != '\0' || index<len) {
-//        if (str[index] == '\n') {
-//            str[index]='\0';
-//            break;
-//        }
-//        ++index;
-//    }
+int remove_whitespaces(char* str) {
+    char *str_tmp;
+    str_tmp=str;
+    while (isspace(*str_tmp)) str_tmp++;
+    if (str_tmp != str) memmove(str,str_tmp,strlen(str_tmp)+1);
 }
 
 /*
@@ -140,7 +128,7 @@ int collect_information(pam_handle_t *pamh, const char * message, int msg_style,
 	 */
 	int rval = pam_get_item(pamh, PAM_CONV, (const void **) &conv);
 
-	if ( rval == PAM_SUCCESS) {
+	if (rval == PAM_SUCCESS) {
 		rval = conv->conv(1, (const struct pam_message **)pmsg, &resp, conv->appdata_ptr);
 		strncpy(result, resp[0].resp, MAX_PROVIDED_INFORMATION_SIZE);
 	}
@@ -150,7 +138,7 @@ int collect_information(pam_handle_t *pamh, const char * message, int msg_style,
 
 
 /*
- * AUTHENTICATES USER TO ACCESS THE INTERNET 
+ * AUTHENTICATES USER TO ACCESS THE INTERNET
  * - Ex.: Captive portal (I'll call it proxy)
  *
  * It's possible to provide the credentials using a user provided file with the following
@@ -173,11 +161,11 @@ int collect_information(pam_handle_t *pamh, const char * message, int msg_style,
  *    0 - Connection to proxy OK
  *   -1 - Connection to proxy FAILED
  */
-int internet_access_authentication(char url[1024], 
-				   char post_str_format[MAX_POST_SIZE], 
-				   char *p_user_name, 
+int internet_access_authentication(char url[1024],
+				   char post_str_format[MAX_POST_SIZE],
+				   char *p_user_name,
 				   char * p_pwd,
-				   pam_handle_t *pamh) 
+				   pam_handle_t *pamh)
 {
 	char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="";
 	char * proxy_password;
@@ -276,7 +264,6 @@ int parse_module_params(int argc,
 		}
 	}
 
-
 	return 0;
 }
 
@@ -301,7 +288,6 @@ int read_user_configuration_file(const char * uname,
 		path = (char *) malloc(512);
 
 	snprintf(path, 512, "%s/%s/credentials",pwd->pw_dir,dname);
-
 
 	FILE *fdx;
 	fdx=fopen(path, "r");
@@ -399,7 +385,6 @@ int check_cache(char * dname, const char * uname, int period, unsigned long *tim
 
 	fd = open(path, O_RDWR | O_CREAT);
 
-
     if (fd < 0) { return CACHE_ERROR; }
 
     int size = read(fd, buf, 80);
@@ -460,7 +445,6 @@ int send_code(char * chatid,
 	      char *proxy_password,
 	      pam_handle_t *pamh)
 {
-
 #ifdef __DEBUG__
 	printf("DEBUG: (%s) (%s) (%i) (%s) (%s) (%s) (%s)\n", chatid, botkey, *code, proxy_url, proxy_post_string,proxy_username, proxy_password);
 	sleep(2);
@@ -640,7 +624,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	/*
 	 * READ USER CONFIGURATION FILE
 	 */
-
     char * user_conf_file_path = (char *) malloc(512);
 	rval = read_user_configuration_file(username,
 					    dir,
@@ -783,7 +766,3 @@ PAM_EXTERN int pam_sm_setcred( pam_handle_t *pamh, int flags, int argc, const ch
 PAM_EXTERN int pam_sm_close_session (pam_handle_t *pamh, int flags, int argc, const char ** argv) {
 	return PAM_SUCCESS;
 }
-
-
-
-
