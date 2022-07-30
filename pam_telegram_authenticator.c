@@ -96,9 +96,14 @@ size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d) {
  */
 int trim_string(char* str) {
     char* line_break = strrchr(str, '\n');
-    if (line_break == NULL) { return 0; }
+    if (!line_break) { return 0; }
     *line_break = '\0';
     return 0;
+
+//    char *s1 = "slkjdf\nsdfj\n";
+//    trim_string(s1);
+//    assert(ustr_cmp_cstr_eq(s1, "slkjdf\nsdfj"));
+
 
 //	int index=0;
 //	int len = 0;
@@ -114,11 +119,6 @@ int trim_string(char* str) {
 //        ++index;
 //    }
 }
-
-char *s1 = "slkjdf\nsdfj\n";
-trim_string(s1);
-assert(ustr_cmp_cstr_eq(s1, "slkjdf\nsdfj"));
-
 
 /*
  *  COLLECT INFORMATION USING PAM 
