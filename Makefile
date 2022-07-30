@@ -12,3 +12,7 @@ debug:
 	gcc -E -fPIC -lcurl -fno-stack-protector -c pam_telegram_authenticator.c
 clean:
 	rm -rf *.o
+
+pam_telegram_authenticator.cpp.so: src/pam_telegram_authenticator.cpp
+	g++ -fPIC -lcurl -Isrc/lib -c src/pam_telegram_authenticator.cpp
+	ld -lcurl --shared -o pam_telegram_authenticator.so pam_telegram_authenticator.o
