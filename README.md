@@ -46,8 +46,8 @@ The contents of `/etc/pam.d/system-auth` must be similar to:
 
 	#%PAM-1.0
 
-	auth	  required  pam_telegram_2fa.so \ 
-                            dir=.pam_telegram_2fa  \
+	auth	  required  pam_telegram_authenticator.so \ 
+                            dir=.pam_telegram_authenticator  \
                             proxy_url=https://your.proxy.url:proxy.port/proxy.page  \
                             proxy_post_string='xyz=zabumba&auth_user=%s&auth_pass=%s' \
 			    cache_timeout=180 \
@@ -66,7 +66,7 @@ The contents of `/etc/pam.d/system-auth` must be similar to:
 
 	session   required  pam_limits.so
 	session   required  pam_unix.so
-	session	  required  pam_telegram_2fa.so
+	session	  required  pam_telegram_authenticator.so
 	session   optional  pam_permit.so
 
 Observe that you only need to configure the auth and session realms. Basically, this module must
@@ -75,7 +75,7 @@ come right before or after `pam_unix.so`. The module parameters for the auth rea
 
 #### dir=	    	       	  
 
-Directory a user must create in his home dir to be used by the pam_telegram_2fa. The user
+Directory a user must create in his home dir to be used by the pam_telegram_authenticator. The user
 must have the specified directory in order to enable the Two-Factor Authentication - If 
 the file `~/<DIRECTORY>/credentials` doesn't exist, the user is allowed to log in using only 
 the regular password. The file "credentials" must exist inside the directory. Keep in 
@@ -125,7 +125,7 @@ You don't need parameters for the session realm.
 > simply ignores the configuration for the root user (and can even cause problems).
 
 According to the example at section 1, the user must create the file
-`~/.pam_telegram_2fa/credentials` with the following content:
+`~/.pam_telegram_authenticator/credentials` with the following content:
 
 ```
 id=<YOUR CHAT ID>
@@ -150,7 +150,7 @@ If you want to use SSH to access a machine with this module you must set
 
 Because I use libcurl to make https calls, other libraries must be present. libcurl depends on
 a **lot of other libs** :confused:, so here is the list extracted using
-`ldd /lib64/security/pam_telegram_2fa.so`:
+`ldd /lib64/security/pam_telegram_authenticator.so`:
 
 	libcurl.so.4
 	libnghttp2.so.14
