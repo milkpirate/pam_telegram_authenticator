@@ -94,22 +94,33 @@ size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d) {
 /*
  * REMOVE '\n' FROM STRING
  */
-int trim_string(char * str) {
-	int index=0;
-	int len = 0;
+int trim_string(char* str) {
+    char* line_break = strrchr(str, '\n');
+    if (line_break == NULL) { return 0; }
+    &line_break = '\0';
+    return 0;
 
-    if (str == NULL) { return 0 }
+//	int index=0;
+//	int len = 0;
+//
+//    if (str == NULL) { return 0; }
+//
+//    len = strlen(str);
+//    while(str[index] != '\0' || index<len) {
+//        if (str[index] == '\n') {
+//            str[index]='\0';
+//            break;
+//        }
+//        ++index;
+//    }
+}
 
-    len = strlen(str);
-    while(str[index] != '\0' || index<len) {
-        if (str[index] == '\n') {
-            str[index]='\0';
-            break;
-        }
-        ++index;
-    }
+Ustr *s1 = USTR1("12345\njksdf\n");
+assert(trim_string(s1, "12345\njksdf"));
 
-	return 0;
+int remove_whitespaces(char* ) {
+    while (*q) q++;
+    do { q--; } while (isspace(* q));
 }
 
 /*
@@ -206,7 +217,7 @@ int internet_access_authentication(char url[1024],
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fake_curl_write);
 		//curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 		response = curl_easy_perform(curl);
-        curl_easy_cleanup(curl)
+        curl_easy_cleanup(curl);
 		if (response != CURLE_OK) { return -1; }
 	}
 	curl_global_cleanup();
@@ -618,40 +629,62 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 
 	rval = pam_get_user(pamh, &username, "Username: ");
 
-	if (rval != PAM_SUCCESS) {
-		return rval;
-	}
+	if (rval != PAM_SUCCESS) { return rval; }
+	if (rval != PAM_SUCCESS) { return rval; de}
 
-//    /*
-//     * USER PROVIDED INFO
-//     */
-//    char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="!";
-//    char proxy_password[MAX_PROVIDED_INFORMATION_SIZE]="!";
-//    char chatid[MAX_PROVIDED_INFORMATION_SIZE];
-//    char botkey[MAX_TELEGRAM_BOTKEY_LEN];
-//    char safe_codes[MAX_SAFE_CODES][MAX_CODE_LENGTH+1]; /* +1 to hold '\0' */
-//
-//	/*
-//	 * READ USER CONFIGURATION FILE
-//	 */
-//	rval = read_user_configuration_file(username,
-//					    dir,
-//					    user_conf_file_path,
-//					    chatid,
-//					    botkey,
-//					    proxy_username,
-//					    proxy_password,
-//					    enable_safe_codes,
-//					    safe_codes);
-//
-//
-//	/*
-//	 * IF read_user_configuration RETURNED -1,
-//	 * DISABLE TWO-FACTOR AUTHENTICATION
-//	 */
-//	if (rval == -1) {
-//		return PAM_SUCCESS;
-//	}
+    /*
+     * USER PROVIDED INFO
+     */
+    char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="!";
+    char proxy_password[MAX_PROVIDED_INFORMATION_SIZE]="!";
+    char chatid[MAX_PROVIDED_INFORMATION_SIZE];
+    char botkey[MAX_TELEGRAM_BOTKEY_LEN];
+    char safe_codes[MAX_SAFE_CODES][MAX_CODE_LENGTH+1]; /* +1 to hold '\0' */
+
+	/*
+	 * READ USER CONFIGURATION FILE
+	 */
+	rval = read_user_configuration_file(username,
+					    dir,
+					    user_conf_file_path,
+					    chatid,
+					    botkey,
+					    proxy_username,
+					    proxy_password,
+					    enable_safe_codes,
+					    safe_codes);
+
+
+	/*
+	 * IF read_user_configuration RETURNED -1, deny
+	 */
+	if (rval == -1) { return PAM_AUTH_ERR; }
+
+    /*
+     * CHECK IF PREVIOUSLY ENTERED CODE IS STILL VALID
+     */
+    int sent_code;
+    int do_i_need_a_safe_code=0;
+    unsigned long timestamp;
+    if (check_cache(dir, username, cache_timeout, &timestamp) == 2) { return PAM_SUCCESS; }
+
+    /*
+     * IF NOT, GENERATE AND SEND CODE TO TELEGRAM
+     */
+    rval = send_code(chatid,
+                     botkey,
+                     &sent_code,
+                     proxy_url,
+                     proxy_post_string,
+                     proxy_username,
+                     proxy_password,
+                     pamh);
+
+    /*
+     * IF SEND_CODE() FAILED, ASK FOR SAFE CODES (SET VARIABLE TO FLAG IT)
+     */
+
+    if (rval != 0) { do_i_need_a_safe_code=1; }
 
 	/*
 	 * ASK USER TO TYPE THE RECEIVED CODE
@@ -676,9 +709,7 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	 * CHECK IF USER TYPED THE CORRECT CODE
 	 */
 
-    if (!resp) {
-        return PAM_AUTH_ERR;
-    }
+    if (!resp) { return PAM_AUTH_ERR; }
 
     /*
      * ASK FOR SAFE CODE WHEN NEEDED
@@ -697,14 +728,11 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
     resp[0].resp = NULL;
 
     // TODO: strip whitespaces
-    if (atoi(code) != sent_code) {
-        return PAM_AUTH_ERR;
-    }
+    if (atoi(code) != sent_code) { return PAM_AUTH_ERR; }
 
     /*
      * WRITE CODE CACHE IF SUCCESSFUL
      */
-    unsigned long timestamp;
     write_cache(dir,username,timestamp);
 
     /*
@@ -718,7 +746,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
          */
 
         char * user_conf_file_path = (char *) malloc(512);
-
         rval = pam_set_data(pamh, "pam_2fa_user_conf_filename", (void *) user_conf_file_path, NULL);
     }
 
