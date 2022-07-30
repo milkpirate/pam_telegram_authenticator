@@ -1,52 +1,44 @@
+# Two Factor Authentication - PAM + Telegram !!
 
-
-Two Factor Authentication - PAM + Telegram !!
+[TOC]
 
 This project provides two factor authentication to linux systems that use PAM. A code is sent to
 Telegram, which must be typed at the login prompt to validate the login process.
 
-################################################################################################
-0 - Create BOT at Telegram
-################################################################################################
+## Create BOT at Telegram
 
 You will need two pieces of information: your ID and a BOTID.
 
 First, create a bot at telegram. To do so, 
 
-   0.1 - Login to your telegram account
-   0.2 - Go to Chats and find BotFather
-   0.3 - Open a chat with BotFather
-   0.4 - Type /newbot and follow the instructions
-   0.5 - Take note of the token to access the bot via HTTP API. 
-         YOU WILL USE IT AT THE USER CONFIGURATION FILE (botkey=...)
+1. Login to your telegram account 
+2. Go to Chats and find BotFather
+3. Open a chat with BotFather
+4. Type /newbot and follow the instructions
+5. Take note of the token to access the bot via HTTP API. YOU WILL USE IT AT THE USER CONFIGURATION FILE (botkey=...)
 
 Second, 
 
-   0.6 - Find the bot userinfobot
-   0.7 - Open a char with userinfobot
-   0.8 - Type /start
-   0.9 - Take note of your Id number
-         YOU WILL USE IT AT THE USER CONFIGURATION FILE (id=...)
-         
+6. Find the bot userinfobot
+7. Open a char with userinfobot#
+8. Type /start 
+9. Take note of your Id number YOU WILL USE IT AT THE USER CONFIGURATION FILE (id=...)
 
 Now you have the two pieces of information to be used at 3 (User configuration file) below.
 
-################################################################################################
-1 - Installation
-################################################################################################
+## Installation
 
 To install:
-
+```bash
    make
    make install
-
+```
 To uninstall:
-
+```bash
    make uninstall
+```
 
-################################################################################################
-2 - Module Configuration
-################################################################################################
+## Module Configuration
 
 This module provides only the auth and session realms. It must be configured using file
 /etc/pam.d/system-auth in archlinux systems. Find the appropriate config file in your Linux
@@ -127,9 +119,7 @@ come right before or after pam_unix.so. The module parameters for the auth realm
 
 You don't need parameters for the session realm.
 
-################################################################################################
-3 - User configuration file
-################################################################################################
+## User configuration file
 
 IMPORTANT: Don't use this module for root accounts, you can be locked out. Also, this module 
            simply ignores the configuration for the root user (and can even cause problems).
@@ -137,6 +127,7 @@ IMPORTANT: Don't use this module for root accounts, you can be locked out. Also,
 According to the example at section 1, the user must create the file
 ~/.pam_telegram_2fa/credentials with the following content:
 
+```
 id=<YOUR CHAT ID>
 botkey=<YOUR BOT KEY>
 proxy_username=<YOUR PROXY USERNAME>
@@ -144,7 +135,7 @@ proxy_password=<YOUR PROXY PASSWORD>
 safe_code=<FIVE DIGITNUMBER>
 safe_code=<FIVE DIGIT NUMBER>
 safe_code=<FIVE DIGIT NUMBER>
-
+```
 
 In the case the Internet is not available, the user can provide safe codes (parameter safe_code
 in the user configurable file).  In order to enable this, the administrator must provide the
@@ -152,9 +143,7 @@ module parameter enable_safe_codes. The provided example enables 3 safe codes fo
 The user can choose any 5 digit number as a safe code. After a succesful login with a safe code,
 the corresponding entry at the user configuration file will be marked as used.
 
-################################################################################################
-4 - Miscellaneous
-################################################################################################
+## Miscellaneous
 
 If you want to use SSH to access a machine with this module you must set
 ChallengeResponseAuthentication to yes at file /etc/ssh/sshd_config.
