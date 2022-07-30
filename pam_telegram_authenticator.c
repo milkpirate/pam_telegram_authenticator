@@ -143,7 +143,6 @@ int collect_information(pam_handle_t *pamh, const char * message, int msg_style,
 }
 
 
-
 /*
  * AUTHENTICATES USER TO ACCESS THE INTERNET 
  * - Ex.: Captive portal (I'll call it proxy)
@@ -483,7 +482,6 @@ int send_code(char * chatid,
 	sleep(2);
 #endif
 
-
 	/*
 	 * GENERATE CODE
 	 */
@@ -625,9 +623,6 @@ int update_safe_code_entry(char * filename)
 }
 
 
-
-
-
 /*
  * Authentication realm
  */
@@ -654,17 +649,6 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	char proxy_post_string[512]="!";
 	int cache_timeout=0;
 	int enable_safe_codes=0;
-
-	/*
-	 * PAM VARIABLES
-	 */
-	struct pam_response *resp;
-	struct pam_conv *conv;
-	struct pam_message msg[1], *pmsg[1];
-	pmsg[0] = &msg[0];
-	msg[0].msg_style = PAM_PROMPT_ECHO_ON;
-	msg[0].msg = "CODE: ";
-
 
 	/*  PARSE MODULE PARAMS
 	 *
@@ -726,6 +710,17 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	/*
 	 * ASK USER TO TYPE THE RECEIVED CODE
 	 */
+
+    /*
+     * PAM VARIABLES
+     */
+    struct pam_response *resp;
+    struct pam_conv *conv;
+    struct pam_message msg[1], *pmsg[1];
+    pmsg[0] = &msg[0];
+    msg[0].msg_style = PAM_PROMPT_ECHO_ON;
+    msg[0].msg = "CODE: ";
+
 	rval = pam_get_item(pamh, PAM_CONV, (const void **) &conv);
 	if ( rval == PAM_SUCCESS) {
 		rval = conv->conv(1, (const struct pam_message **)pmsg, &resp, conv->appdata_ptr);
