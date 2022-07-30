@@ -86,8 +86,7 @@
  * FAKE CURL WRITE FUNCTION 
  *  - disable echoing the return msg to the screen.
  */
-size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d) 
-{
+size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d) {
 	//printf("\n\n\n\nDEBUG fake_curl_write: %s\n\n\n\n",p);
 	return s * nmemb;
 }
@@ -95,30 +94,29 @@ size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d)
 /*
  * REMOVE '\n' FROM STRING
  */
-int trim_string(char * str) 
-{
+int trim_string(char * str) {
 	int index=0;
 	int len = 0;
-	
-	if (str != NULL) {
-		len = strlen(str);
-		while(str[index] != '\0' || index<len) {
-			if (str[index] == '\n') {
-				str[index]='\0';
-				break;
-			}
-			++index;
-		}
-	}
+
+    if (str == NULL) { return 0 }
+
+    len = strlen(str);
+    while(str[index] != '\0' || index<len) {
+        if (str[index] == '\n') {
+            str[index]='\0';
+            break;
+        }
+        ++index;
+    }
+
 	return 0;
 }
- 
+
 /*
  *  COLLECT INFORMATION USING PAM 
  *    - USED TO ASK PROXY INFO
  */
-int collect_information(pam_handle_t *pamh, const char * message, int msg_style, char * result)
-{
+int collect_information(pam_handle_t *pamh, const char * message, int msg_style, char * result) {
 	/* 
 	 * PAM VARIABLES 
 	 */
@@ -129,11 +127,11 @@ int collect_information(pam_handle_t *pamh, const char * message, int msg_style,
 	msg[0].msg_style = msg_style;
 	msg[0].msg = message;
     
-    
 	/* 
 	 * ASK USER TO TYPE THE REQUESTED INFORMATION 
 	 */
 	int rval = pam_get_item(pamh, PAM_CONV, (const void **) &conv);
+
 	if ( rval == PAM_SUCCESS) {
 		rval = conv->conv(1, (const struct pam_message **)pmsg, &resp, conv->appdata_ptr);
 		strncpy(result, resp[0].resp, MAX_PROVIDED_INFORMATION_SIZE);
@@ -173,7 +171,6 @@ int internet_access_authentication(char url[1024],
 				   char * p_pwd,
 				   pam_handle_t *pamh) 
 {
-
 	char proxy_username[MAX_PROVIDED_INFORMATION_SIZE]="";
 	char * proxy_password;
 	char post[MAX_POST_SIZE];
@@ -181,7 +178,6 @@ int internet_access_authentication(char url[1024],
 
 	if (p_user_name == NULL || strcmp(p_user_name,"!") == 0) {
 		collect_information(pamh, "PROXY USER: ", PAM_PROMPT_ECHO_ON, proxy_username);
-
 	} else {
 		strncpy(proxy_username, p_user_name, MAX_PROVIDED_INFORMATION_SIZE);
 	}
@@ -195,7 +191,6 @@ int internet_access_authentication(char url[1024],
 		strncpy(proxy_password, p_pwd, MAX_PROVIDED_INFORMATION_SIZE);
 	}
 
-
 	snprintf(post,MAX_POST_SIZE,post_str_format, proxy_username, proxy_password);
 	free(proxy_password);
 
@@ -204,22 +199,19 @@ int internet_access_authentication(char url[1024],
 
 	curl_global_init(CURL_GLOBAL_ALL);
 	curl = curl_easy_init();
+
 	if (curl) {
 		curl_easy_setopt(curl, CURLOPT_URL, url);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fake_curl_write);
 		//curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 		response = curl_easy_perform(curl);
-		if (response != CURLE_OK) {
-			curl_easy_cleanup(curl);
-			return -1;
-		}
-		curl_easy_cleanup(curl);
+        curl_easy_cleanup(curl)
+		if (response != CURLE_OK) { return -1; }
 	}
 	curl_global_cleanup();
 
 	return 0;
-
 }
 
 
@@ -235,7 +227,6 @@ int parse_module_params(int argc,
 			int *enable_safe_codes)
 {
 	char *line;
-	char *token;
 	char param[MAX_PARAM_SIZE];
 
 	fname[0]='!';
@@ -295,7 +286,6 @@ int read_user_configuration_file(const char * uname,
 				 int nsc,
 				 char safe_codes[MAX_SAFE_CODES][MAX_CODE_LENGTH+1])
 {
-	//char path[512];
 	char cred[CRED_BUF_SIZE];
 	struct passwd *pwd;
 	pwd = getpwnam(uname);
@@ -309,9 +299,9 @@ int read_user_configuration_file(const char * uname,
 	fdx=fopen(path, "r");
 
 	/*
-	 * IF FILE NOT PRESENT, DISABLE TWO FACTOR AUTHENTICATION
+	 * IF FILE NOT PRESENT, DISABLE TWO-FACTOR AUTHENTICATION
 	 *
-	 *      - e.g.: ~/.pam_telegram_2fa/credentials
+	 *      - e.g.: ~/.pam_telegram_authenticator/credentials
 	 */
 	if (fdx == NULL)
 		return -1;
@@ -323,12 +313,10 @@ int read_user_configuration_file(const char * uname,
 			break;
 	};
 
-
 	/*
 	 * PARSE ITEMS
 	 */
 	char *line;
-	int i=0;
 	char *token;
 	char *sp1, *sp2;
 	int index_safe_codes=0;
@@ -379,8 +367,7 @@ int read_user_configuration_file(const char * uname,
  *       1 : CACHE_VALID
  * 	 2 : CACHE_EXPIRED
  */
-int check_cache(char * dname, const char * uname, int period, unsigned long *timestamp) 
-{
+int check_cache(char * dname, const char * uname, int period, unsigned long *timestamp) {
 	char path[512];
 	char dirpath[512];
 	int fd=0;
@@ -404,36 +391,26 @@ int check_cache(char * dname, const char * uname, int period, unsigned long *tim
 
 	fd = open(path, O_RDWR | O_CREAT);
 
-	if ( fd >= 0) {
-		int size = read(fd, buf, 80);
-		close(fd);
-		if (size > 0)
-			lasttime=atol(buf);
-		else
-			return CACHE_EXPIRED;		
-	}
-	else {
-		return CACHE_ERROR;		
 
-	}
+    if (fd < 0) { return CACHE_ERROR; }
+
+    int size = read(fd, buf, 80);
+    close(fd);
+    if (size <= 0) { return CACHE_EXPIRED; }
+    lasttime=atol(buf);
 
 	/*
 	 * CHECK IF CACHE EXPIRED          
 	 */
 	unsigned int elapsedtime = currenttime - lasttime;
-	if ( elapsedtime < period )
-		return CACHE_VALID;
-	else
-		return CACHE_EXPIRED;
 
-	return 0;
+    return (elapsedtime < period) ? CACHE_VALID : CACHE_EXPIRED;
 }
 
 /*
  * WRITE TIMESTAMP INTO CACHE FILE
  */ 
-int write_cache(char * dname, const char * uname, unsigned long timestamp) 
-{
+int write_cache(char * dname, const char * uname, unsigned long timestamp) {
 	char path[512];
 	char dirpath[512];
 	int fd=0;
@@ -456,7 +433,6 @@ int write_cache(char * dname, const char * uname, unsigned long timestamp)
 
 	return 0;
 }
-
 
 
 /*
@@ -514,8 +490,6 @@ int send_code(char * chatid,
 	CURL *curl;
 	CURLcode response;
 
-
-
 	int npass=0;
 
  try_again:
@@ -528,23 +502,17 @@ int send_code(char * chatid,
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fake_curl_write);
 		response = curl_easy_perform(curl);
 		if (response != CURLE_OK) {
-			if (strcmp(proxy_url,"!")==0 || strcmp(proxy_post_string,"!")==0)
-				return -2;
+			if (strcmp(proxy_url,"!")==0 || strcmp(proxy_post_string,"!")==0) { return -2; }
 			curl_easy_cleanup(curl);
 			/*
 			 * TRY TO AUTHENTICATE
 			 */
 			int rval = internet_access_authentication(proxy_url, proxy_post_string, proxy_username, proxy_password, pamh);
-			if (rval != 0) {
-				return -1;
-			}
+			if (rval != 0) { return -1; }
 
 			++npass;
-			if (npass > 1) {
-				return -1;
-			}
-			else
-				goto try_again;
+			if (npass > 1) { return -1; }
+			else { goto try_again; }
 		}
 		curl_easy_cleanup(curl);
 	}
@@ -557,26 +525,21 @@ int send_code(char * chatid,
  * REMOVE SAFE_CODE ENTRY WHEN USED
  */
 
-int update_safe_code_entry(char * filename)
-{
-
+int update_safe_code_entry(char * filename) {
 	char cred[CRED_BUF_SIZE];
 	char newcred[CRED_BUF_SIZE];
 	
 	FILE *fdx;
 	fdx=fopen(filename, "r+");
 	
-	if (fdx == NULL)
-		return -1;
+	if (fdx == NULL) { return -1; }
 
 	int counter=0;
 	while(1) {
 		cred[counter++] = fgetc(fdx);
-		if ( feof(fdx) || counter >= CRED_BUF_SIZE)
-			break;
+		if ( feof(fdx) || counter >= CRED_BUF_SIZE) { break; }
 	};
 
-	
 	/* 
 	 * PARSE ITEMS 
 	 */
@@ -586,10 +549,8 @@ int update_safe_code_entry(char * filename)
 	char linebkp[1024];
 	int found=0;
 
-
 	linebkp[0] = '\0';
 	newcred[0] = '\0';
-
 		
 	/* 
 	 * READ LINE BY LINE 
@@ -614,30 +575,15 @@ int update_safe_code_entry(char * filename)
 	}
 	newcred[counter]='\0';
 
-	int ret=0;
-	ret = fseek(fdx, 0L, SEEK_SET);
-	ret = fputs(newcred, fdx);
-
+	fseek(fdx, 0L, SEEK_SET);
+	fputs(newcred, fdx);
 	fclose(fdx);
+
 	return 0;
 }
 
 
-/*
- * Authentication realm
- */
-
-PAM_EXTERN int pam_sm_setcred( pam_handle_t *pamh, int flags, int argc, const char **argv ) 
-{
-	return PAM_SUCCESS;
-}
-
-/*
- * Authentication realm
- */
-
-PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, const char **argv ) 
-{
+PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, const char **argv ) {
 	int rval;
 	const char* username;
 
@@ -655,10 +601,10 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 	 *     proxy_url=
 	 *     proxy_post_string=
 	 *
-	 *     dir=~/.pam_telegram_2fa
+	 *     dir=~/.pam_telegram_authenticator
 	 *
 	 *        Indicates which dir the user must create to insert it's credentials.
-	 *        The example indicates the user must create dir ~/.pam_telegram_2fa
+	 *        The example indicates the user must create dir ~/.pam_telegram_authenticator
 	 *
 	 */
 	parse_module_params(argc,
@@ -701,7 +647,7 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
 //
 //	/*
 //	 * IF read_user_configuration RETURNED -1,
-//	 * DISABLE TWO FACTOR AUTHENTICATION
+//	 * DISABLE TWO-FACTOR AUTHENTICATION
 //	 */
 //	if (rval == -1) {
 //		return PAM_SUCCESS;
@@ -737,6 +683,7 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
     /*
      * ASK FOR SAFE CODE WHEN NEEDED
      */
+
     if (do_i_need_a_safe_code) {
         if (safe_codes[0] != NULL)
             sent_code=atoi(safe_codes[0]); /* Always get the first entry.
@@ -749,11 +696,11 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
     char* code = resp[0].resp;
     resp[0].resp = NULL;
 
+    // TODO: strip whitespaces
     if (atoi(code) != sent_code) {
         return PAM_AUTH_ERR;
     }
 
-    // TODO: strip whitespaces
     /*
      * WRITE CODE CACHE IF SUCCESSFUL
      */
@@ -782,14 +729,10 @@ PAM_EXTERN int pam_sm_authenticate( pam_handle_t *pamh, int flags,int argc, cons
  * Session realm
  */
 
-PAM_EXTERN int pam_sm_open_session( pam_handle_t *pamh, int flags, int argc, const char **argv )
-{
-
-
+PAM_EXTERN int pam_sm_open_session( pam_handle_t *pamh, int flags, int argc, const char **argv ) {
 	FILE *fdx;
 	char *user;
 	int retval;
-	//char path[512];
 	char *filename=NULL;
 
 	retval = pam_get_item(pamh, PAM_USER, (void *) &user);
@@ -807,8 +750,13 @@ PAM_EXTERN int pam_sm_open_session( pam_handle_t *pamh, int flags, int argc, con
 	return PAM_SUCCESS;
 }
 
-PAM_EXTERN int pam_sm_close_session (pam_handle_t *pamh, int flags, int argc, const char ** argv)
-{
+
+PAM_EXTERN int pam_sm_setcred( pam_handle_t *pamh, int flags, int argc, const char **argv ) {
+    return PAM_SUCCESS;
+}
+
+
+PAM_EXTERN int pam_sm_close_session (pam_handle_t *pamh, int flags, int argc, const char ** argv) {
 	return PAM_SUCCESS;
 }
 
