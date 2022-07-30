@@ -97,7 +97,7 @@ size_t fake_curl_write(void *p, size_t s, size_t nmemb, void *d) {
 int trim_string(char* str) {
     char* line_break = strrchr(str, '\n');
     if (line_break == NULL) { return 0; }
-    &line_break = '\0';
+    *line_break = '\0';
     return 0;
 
 //	int index=0;
@@ -115,8 +115,9 @@ int trim_string(char* str) {
 //    }
 }
 
-Ustr *s1 = USTR1("12345\njksdf\n");
-assert(trim_string(s1, "12345\njksdf"));
+char *s1 = "slkjdf\nsdfj\n"
+trim_string(s1);
+assert(ustr_cmp_cstr_eq(s1, "slkjdf\nsdfj"));
 
 int remove_whitespaces(char* ) {
     while (*q) q++;
