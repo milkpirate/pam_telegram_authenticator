@@ -1,0 +1,7 @@
+# ninja log v5
+0	311	1659371314226087432	CMakeFiles/pam_telegram_authenticator.dir/src/lib/PamWrapper/PamWrapper.cpp.o	90db0bbe04358fec
+0	18930	1659371332846177369	CMakeFiles/pam_telegram_authenticator.dir/src/lib/TgAuthBot/TgAuthBot.cpp.o	74868a8db193f09
+0	26372	1659371340286212683	CMakeFiles/pam_telegram_authenticator.dir/src/pam_telegram_authenticator.cpp.o	e36ac852abf2e267
+26372	28015	1659371341910220373	lib/libpam_telegram_authenticator.so	eb6fb81f37f3c104
+43	18286	1659371521663093857	CMakeFiles/pam_telegram_authenticator.dir/src/pam_telegram_authenticator.cpp.o	e36ac852abf2e267
+18286	19555	1659371522919100034	lib/libpam_telegram_authenticator.so	eb6fb81f37f3c104
