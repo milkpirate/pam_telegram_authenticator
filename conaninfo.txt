@@ -7,7 +7,9 @@
     os=Linux
 
 [requires]
+    boost/1.Y.Z
     fmt/8.Y.Z
+    libuuid/1.Y.Z
     nlohmann_json/3.Y.Z
     spdlog/1.Y.Z
     tgbot/1.Y.Z
@@ -32,6 +34,7 @@
     fmt/8.1.1:db123017807f5c094e7ffe64463018510e127133
     libbacktrace/cci.20210118:6af9cc7cb931c5ad942174fd7838eb655717c709
     libcurl/7.84.0:9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49
+    libuuid/1.0.3:6af9cc7cb931c5ad942174fd7838eb655717c709
     nlohmann_json/3.10.5:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
     openssl/1.1.1q:6af9cc7cb931c5ad942174fd7838eb655717c709
     spdlog/1.10.0:c2473343b93c984d1dc6f8dc53695396ffbb17cd
@@ -154,6 +157,8 @@
     libcurl:with_verbose_strings=True
     libcurl:with_zlib=True
     libcurl:with_zstd=False
+    libuuid:fPIC=True
+    libuuid:shared=False
     openssl:386=False
     openssl:enable_weak_ssl_ciphers=False
     openssl:fPIC=True

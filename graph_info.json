@@ -457,6 +457,14 @@
    "False"
   ],
   [
+   "libuuid:fPIC",
+   "True"
+  ],
+  [
+   "libuuid:shared",
+   "False"
+  ],
+  [
    "openssl:386",
    "False"
   ],

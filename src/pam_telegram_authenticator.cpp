@@ -12,15 +12,16 @@
 #include "TgAuthBot/TgAuthBot.hpp"
 #include "Utils.h"
 
+
 /* expected hook, this is where custom stuff happens */
 PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, const char** argv) {
     auto slog = spdlog::syslog_logger_mt("syslog", "pam_telegram_authenticator", LOG_PID);
-    slog->set_level(spdlog::level::debug);
+    slog->set_level(spdlog::level::trace);
     slog->info("Authenticating...");
 
     auto pam = PamWrapper(pamh);
     auto user = pam.getUser();
-    slog->debug("Got user: {}", user);
+    slog->info("User tries to log in: {}", user);
 
     // TODO: read config into DTO
     const std::filesystem::path configFile = "/home/"+user+"/.telegram_authenticator.yaml";
@@ -32,11 +33,12 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, cons
     slog->debug("Setting log level to: {}", logLevel);
     slog->set_level(stringToSpdLevelLookup(logLevel));
 
-//    Ts ts = Ts(config["api_key"].as<std::string>(), config["chat_id"].as<std::string>(), slog);
-//    slog->debug("Telegram sender initialized");
+    Ts ts = Ts(config["api_key"].as<std::string>(), config["chat_id"].as<std::string>(), log);
+    slog->debug("Telegram sender initialized");
 
-    auto tgBot = TgAuthBot(config["api_key"].as<std::string>(), config["chat_id"].as<std::string>());
-    slog->trace("decision: {}", tgBot.isApproved("decide!"));
+//    auto tgBot = TgAuthBot(config["api_key"].as<std::string>(), config["chat_id"].as<std::int64_t>(), slog);
+//    auto foo = tgBot.isApproved("decide");
+//    slog->trace("decision: {}", foo);
 
     auto sentOtp = getOTP(2);
     slog->trace("Generated OTP: {}", sentOtp);
@@ -44,8 +46,8 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, cons
     auto msg = optMsg("sericve", sentOtp, "host", "user");
     slog->trace("Telegram message: {}", msg);
 
-//    auto msgId = ts.sendMessage(msg);
-//    slog->trace("Sent message ID: {}", msgId);
+    auto msgId = ts.sendMessage(msg);
+    slog->trace("Sent message ID: {}", msgId);
 
     pam.info("OTP sent via Telegram.");
 
@@ -72,7 +74,6 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, cons
         userEm = rmSpaces(userEm);
         slog->debug("Emergency key given: '{}'", userEm);
         auto emKeys = config["emergency_keys"].as<std::vector<std::string>>();
-        slog->trace("> keys read");
         otpMatches = removeFromVector<std::string>(userEm, &emKeys);
         slog->debug("Given emergency key found: {}", otpMatches);
         config["emergency_keys"] = emKeys;
@@ -86,32 +87,10 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, cons
 }
 
 /* expected hook */
-PAM_EXTERN int pam_sm_setcred( pam_handle_t * pamh, int flags, int argc, const char ** argv ) {
+PAM_EXTERN int pam_sm_setcred(pam_handle_t *pamh, int flags, int argc, const char **argv) {
     return PAM_SUCCESS;
 }
 
-PAM_EXTERN int pam_sm_acct_mgmt( pam_handle_t * pamh, int flags, int argc, const char ** argv ) {
+PAM_EXTERN int pam_sm_acct_mgmt(pam_handle_t *pamh, int flags, int argc, const char **argv) {
     return PAM_SUCCESS;
 }
-
-//PAM_EXTERN int pam_sm_open_session( pam_handle_t *pamh, int flags, int argc, const char **argv ) {
-//    FILE *fdx;
-//    char *user;
-//    int retval;
-//    //char path[512];
-//    char *filename=NULL;
-//
-//    retval = pam_get_item(pamh, PAM_USER, (void *) &user);
-//
-//    if (retval == PAM_SUCCESS || user != NULL || *user != '\0') {
-//        retval = pam_get_data(pamh, "pam_2fa_user_conf_filename", (const void **) &filename);
-//        if (retval != PAM_NO_MODULE_DATA) {
-//            update_safe_code_entry(filename);
-//        }
-//    }
-//
-//    if (filename != NULL)
-//        free(filename); // IT was allocated at pam_sm_authenticate
-//
-//    return PAM_SUCCESS;
-//}

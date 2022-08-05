@@ -7,7 +7,7 @@
 
 class PamWrapper {
     public:
-        PamWrapper(pam_handle_t* pamHandle);
+        explicit PamWrapper(pam_handle_t* pamHandle);
 
         std::string readInput(const std::string &prompt);
         std::string readPassword(const std::string &prompt);

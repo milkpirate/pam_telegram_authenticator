@@ -13,11 +13,16 @@ add_definitions("-std=gnu++2a -D__RANDOM_SEED__=${RANDOM_SEED}")
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+add_executable(test src/test.cpp)
+target_link_libraries(test PUBLIC ${CONAN_LIBS})
+
+add_executable(main src/main.cpp)
+target_link_libraries(main PUBLIC ${CONAN_LIBS})
+
 add_library(pam_telegram_authenticator SHARED
     src/pam_telegram_authenticator.cpp
     src/lib/PamWrapper/PamWrapper.cpp
     src/lib/TgAuthBot/TgAuthBot.cpp
 )
-
 target_include_directories(pam_telegram_authenticator PRIVATE src/lib)
 target_link_libraries(pam_telegram_authenticator PUBLIC ${CONAN_LIBS})

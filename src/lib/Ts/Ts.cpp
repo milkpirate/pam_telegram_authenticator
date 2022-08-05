@@ -43,21 +43,21 @@ size_t Ts::_writeCallback(void *contents, size_t size, size_t nmemb, void *userp
 
 json Ts::_curlPost(json& payload, const basic_string<char>& func) {
     string url = _telegram_api_url+_apiKey+"/"+func;
-    _log->trace("URL to request: {}", url);
+    _slog->trace("URL to request: {}", url);
 
     auto json_response = json();
 
     auto curl = curl_easy_init();
     if(!curl) {
-        _log->error("Curl instance could not be created!");
+        _slog->error("Curl instance could not be created!");
         curl_global_cleanup();
         return json_response;
     }
 
-    _log->trace("Setting curl options...");
+    _slog->trace("Setting curl options...");
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, payload.dump().c_str());
-    _log->trace("Payload: {}", payload.dump(2));
+    _slog->trace("Payload: {}", payload.dump(2));
 
     struct curl_slist *headers;
     headers = curl_slist_append(headers, "Content-Type: application/json");
@@ -70,16 +70,16 @@ json Ts::_curlPost(json& payload, const basic_string<char>& func) {
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &curl_response);
 
     auto ret = curl_easy_perform(curl);
-    _log->trace("Curl return code: {}", ret);
+    _slog->trace("Curl return code: {}", ret);
     curl_easy_cleanup(curl);
     curl_global_cleanup();
 
     if (ret != CURLE_OK) {
-        _log->error("curl_easy_perform() failed: {}", curl_easy_strerror(ret));
+        _slog->error("curl_easy_perform() failed: {}", curl_easy_strerror(ret));
         return json_response;
     }
 
     json_response = json::parse(curl_response);
-    _log->trace("JSON parsed response: {}", json_response.dump(2));
+    _slog->trace("JSON parsed response: {}", json_response.dump(2));
     return json_response;
 }

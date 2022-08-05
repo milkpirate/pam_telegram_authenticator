@@ -27,12 +27,12 @@ spdlog::level::level_enum stringToSpdLevelLookup(std::string level) {
         c = ::tolower(c);
     });
 
-    if(level == "debug") {
+    if (level == "trace") {
+        spdLevel = spdlog::level::trace;
+    } else if (level == "debug") {
         spdLevel = spdlog::level::debug;
     } else if (level == "info") {
         spdLevel = spdlog::level::info;
-    } else if (level == "trace") {
-        spdLevel = spdlog::level::trace;
     } else if (level == "warn") {
         spdLevel = spdlog::level::warn;
     } else if (level == "warning") {
@@ -60,14 +60,18 @@ bool removeFromVector(const T e, std::vector<T>* v) {
     return true;
 }
 
-uint64_t randomNumberHw(const uint8_t digits = 6) {
-    std::random_device randDev; // obtain a random number from hardware
-    std::mt19937 mtRand(randDev); // seed the generator
-    return randomNumber(digits, mtRand)
+uint64_t randomNumber(const uint8_t digits, std::mt19937 mtRand) {
+    std::uniform_int_distribution<uint64_t> distribution(0, (uint64_t)pow(10, digits)); // define the range
+    return distribution(mtRand);
 }
 
-uint64_t randomNumberSeeded(const uint8_t digits = 6) {
-//    random_device seed; // obtain a random number from hardware
+uint64_t randomNumberHw(const uint8_t digits = 6) {
+    std::random_device randDev; // obtain a random number from hardware
+    std::mt19937 mtRand(randDev()); // seed the generator
+    return randomNumber(digits, mtRand);
+}
+
+uint64_t randomNumberTimeSeeded(const uint8_t digits = 6) {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     uint64_t sec = std::chrono::duration_cast<std::chrono::seconds>(now).count();
     auto seed = sec / 30;
@@ -76,15 +80,10 @@ uint64_t randomNumberSeeded(const uint8_t digits = 6) {
     return randomNumber(digits, mtRand);
 }
 
-uint64_t randomNumber(const uint8_t digits, std::mt19937 mtRand) {
-    std::uniform_int_distribution<uint64_t> distribution(0, (uint64_t)pow(10, digits)); // define the range
-    return distribution(mtRand);
-}
-
 std::string getOTP(const uint8_t digitGroups = 2) {
     const auto digitGroupsLength = 3;
     auto otpLength = digitGroups * digitGroupsLength;
-    const auto randNum = randomNumber(otpLength);
+    const auto randNum = randomNumberTimeSeeded(otpLength);
     auto number = fmt::format("{:0<{}d}", randNum, otpLength);
     while(otpLength > digitGroupsLength) {
         otpLength -= digitGroupsLength;
@@ -95,7 +94,7 @@ std::string getOTP(const uint8_t digitGroups = 2) {
 
 
 std::string sanitizeForTelegram(std::string msg) {
-    std::array<std::string, 3> charsToEscape = {"_", "*", "~"};
+    std::vector<std::string> charsToEscape = {"_", "*", "~", "!", "-"};
     for(const auto& from : charsToEscape) {
         size_t start_pos = 0;
         while ((start_pos = msg.find(from, start_pos)) != std::string::npos) {

@@ -48,10 +48,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/cmake/1132/bin/cmake
+CMAKE_COMMAND = /home/pschroeder/.cache/JetBrains/RemoteDev/dist/28f9dbfbcb7ad_CLion-2022.2/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/cmake/1132/bin/cmake -E rm -f
+RM = /home/pschroeder/.cache/JetBrains/RemoteDev/dist/28f9dbfbcb7ad_CLion-2022.2/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -67,8 +67,8 @@ CMAKE_BINARY_DIR = /home/pschroeder/repos/pam_telegram_authenticator
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/snap/cmake/1132/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/home/pschroeder/.cache/JetBrains/RemoteDev/dist/28f9dbfbcb7ad_CLion-2022.2/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/cmake/1132/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/pschroeder/.cache/JetBrains/RemoteDev/dist/28f9dbfbcb7ad_CLion-2022.2/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -115,6 +115,32 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named test
+
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+#=============================================================================
+# Target rules for targets named main
+
+# Build rule for target.
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
+.PHONY : main
+
+# fast build rule for target.
+main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 #=============================================================================
 # Target rules for targets named pam_telegram_authenticator
@@ -177,6 +203,30 @@ src/lib/TgAuthBot/TgAuthBot.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pam_telegram_authenticator.dir/build.make CMakeFiles/pam_telegram_authenticator.dir/src/lib/TgAuthBot/TgAuthBot.cpp.s
 .PHONY : src/lib/TgAuthBot/TgAuthBot.cpp.s
 
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 src/pam_telegram_authenticator.o: src/pam_telegram_authenticator.cpp.o
 .PHONY : src/pam_telegram_authenticator.o
 
@@ -201,6 +251,30 @@ src/pam_telegram_authenticator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pam_telegram_authenticator.dir/build.make CMakeFiles/pam_telegram_authenticator.dir/src/pam_telegram_authenticator.cpp.s
 .PHONY : src/pam_telegram_authenticator.cpp.s
 
+src/test.o: src/test.cpp.o
+.PHONY : src/test.o
+
+# target to build an object file
+src/test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.o
+.PHONY : src/test.cpp.o
+
+src/test.i: src/test.cpp.i
+.PHONY : src/test.i
+
+# target to preprocess a source file
+src/test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.i
+.PHONY : src/test.cpp.i
+
+src/test.s: src/test.cpp.s
+.PHONY : src/test.s
+
+# target to generate assembly for a file
+src/test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.s
+.PHONY : src/test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -209,16 +283,24 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... main"
 	@echo "... pam_telegram_authenticator"
+	@echo "... test"
 	@echo "... src/lib/PamWrapper/PamWrapper.o"
 	@echo "... src/lib/PamWrapper/PamWrapper.i"
 	@echo "... src/lib/PamWrapper/PamWrapper.s"
 	@echo "... src/lib/TgAuthBot/TgAuthBot.o"
 	@echo "... src/lib/TgAuthBot/TgAuthBot.i"
 	@echo "... src/lib/TgAuthBot/TgAuthBot.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 	@echo "... src/pam_telegram_authenticator.o"
 	@echo "... src/pam_telegram_authenticator.i"
 	@echo "... src/pam_telegram_authenticator.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
 .PHONY : help
 
 
