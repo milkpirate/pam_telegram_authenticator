@@ -8,7 +8,11 @@ message(STATUS "Random seed: ${RANDOM_SEED}")
 set(CMAKE_BUILD_TYPE Release)
 string(APPEND CMAKE_C_FLAGS_INIT " -fPIC ${VCPKG_C_FLAGS} ")
 string(APPEND CMAKE_CXX_FLAGS_INIT " -fPIC ${VCPKG_CXX_FLAGS}")
-add_definitions("-std=gnu++2a -D__RANDOM_SEED__=${RANDOM_SEED}")
+
+add_definitions("-D__RANDOM_SEED__=${RANDOM_SEED}")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdata-sections -ffunction-sections -std=gnu++2a")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()

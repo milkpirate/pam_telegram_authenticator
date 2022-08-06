@@ -16,6 +16,7 @@
 			"conan_basic_setup",
 			"target_link_libraries",
 			"add_compile_options",
+			"add_definitions",
 			"include_directories"
 		],
 		"files" : 
@@ -31,13 +32,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 19,
+				"line" : 23,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 14,
+				"line" : 18,
 				"parent" : 0
 			},
 			{
@@ -55,7 +56,7 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 20,
+				"line" : 24,
 				"parent" : 0
 			},
 			{
@@ -66,6 +67,12 @@
 			},
 			{
 				"command" : 6,
+				"file" : 0,
+				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
 				"file" : 1,
 				"line" : 1966,
 				"parent" : 3
@@ -78,7 +85,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O3 -DNDEBUG    -std=gnu++2a -D__RANDOM_SEED__=8102894966026603965"
+					"fragment" : " -fdata-sections -ffunction-sections -std=gnu++2a   -O3 -DNDEBUG "
 				},
 				{
 					"backtrace" : 6,
@@ -109,58 +116,65 @@
 					"fragment" : "-DSPDLOG_COMPILED_LIB"
 				}
 			],
-			"includes" : 
+			"defines" : 
 			[
 				{
 					"backtrace" : 7,
+					"define" : "__RANDOM_SEED__=4616904914508076878"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include/uuid"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/libcurl/7.84.0/_/_/package/9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/zlib/1.2.12/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/bzip2/1.0.8/_/_/package/da606cf731e334010b0bf6e85a2a6f891b9f36b0/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/libbacktrace/cci.20210118/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 8,
 					"path" : "/home/pschroeder/.conan/data/openssl/1.1.1q/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include"
 				}
 			],
@@ -177,11 +191,11 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-O3 -DNDEBUG",
+				"fragment" : "-fdata-sections -ffunction-sections -std=gnu++2a   -O3 -DNDEBUG",
 				"role" : "flags"
 			},
 			{
-				"fragment" : "",
+				"fragment" : "-Wl,--gc-sections",
 				"role" : "flags"
 			},
 			{

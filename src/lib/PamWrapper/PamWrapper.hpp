@@ -2,20 +2,24 @@
 
 #include <string>
 
-#include <security/pam_appl.h>
 #include <security/pam_modules.h>
+#include <spdlog/logger.h>
 
 class PamWrapper {
     public:
-        explicit PamWrapper(pam_handle_t* pamHandle);
+        PamWrapper(pam_handle_t* pamHandle, const std::shared_ptr<spdlog::logger>& log);
 
         std::string readInput(const std::string &prompt);
         std::string readPassword(const std::string &prompt);
         void info(const std::string &msg);
         void error(const std::string &error);
+        std::string getService();
+        std::string getRHost();
         std::string getUser();
 
     private:
+        std::string _pamRead(const char* prompt, int msgStyle);
+        std::string _getItem(const int& item);
         pam_handle_t* _pamHandle;
-        std::string _pamRead(const char* prompt, int pamMsgStyle);
+        std::shared_ptr<spdlog::logger> _log;
 };

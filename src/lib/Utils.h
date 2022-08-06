@@ -11,12 +11,14 @@
 #include <cctype>
 #include <algorithm>
 #include <fstream>
+#include <stdio.h>
 
 #include <security/pam_appl.h>
 #include <security/pam_modules.h>
 
 #include <yaml-cpp/yaml.h>
-#include <spdlog/spdlog.h>  // for fmt
+#include <fmt/core.h>
+#include <fmt/chrono.h>
 
 
 spdlog::level::level_enum stringToSpdLevelLookup(std::string level) {
@@ -52,13 +54,13 @@ void writeFile(const std::string& content, const std::filesystem::path path) {
     file.close();
 }
 
-template <typename T>
-bool removeFromVector(const T e, std::vector<T>* v) {
-    auto it = std::find(v->begin(), v->end(), e);
-    if(it == v->end()) return false;
-    v->erase(it);
-    return true;
-}
+//template <typename T>
+//bool removeFromVector(const T e, std::vector<T>* v) {
+//    auto it = std::find(v->begin(), v->end(), e);
+//    if(it == v->end()) return false;
+//    v->erase(it);
+//    return true;
+//}
 
 uint64_t randomNumber(const uint8_t digits, std::mt19937 mtRand) {
     std::uniform_int_distribution<uint64_t> distribution(0, (uint64_t)pow(10, digits)); // define the range
@@ -113,14 +115,30 @@ std::string rmSpaces(const std::string& str) {
     return tmp;
 }
 
+std::string getHostName() {
+    std::ifstream hostNameFile("/proc/sys/kernel/hostname");
+    std::stringstream hostNameStream;
+    hostNameStream << hostNameFile.rdbuf();
+    return hostNameStream.str();
+}
 
-std::string optMsg(std::string service, const std::string& otp, std::string user, std::string rHost) {
-    for(std::string* part : {&service, &user, &rHost}) {
+std::string approvalRequestMsg(std::string service, std::string host, std::string id, std::string user, std::string rHost) {
+    auto dateTime = sanitizeForTelegram(fmt::format("{:%FT%TZ}", std::chrono::system_clock::now()));
+
+    for(std::string* part : {&service, &user, &rHost, &dateTime, &host, &id}) {
         std::string tmp = sanitizeForTelegram(*part);
         part = &tmp;
     }
+
     return fmt::format(
-        "🔒 *{} MFA*\n\nOTP:  `{}`\n\nLogin from: *{}@{}*",
-        service, otp, user, rHost
+        "🔒 *Approve sign\\-in?*\n\n"
+        "*{5}*\n\n"
+        "```\n"
+        "Service:   {1}\n"
+        "User:      {2}@{3}\n"
+        "Host:      {0}\n"
+        "```\n"
+        "{4}",
+        host, service, user, rHost, dateTime, id
     );
 }
