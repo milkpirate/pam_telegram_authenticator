@@ -54,7 +54,7 @@ int main() {
             longPoll.start();
         }
     } catch (exception& e) {
-        printf("error: %s\n", e.what());
+        printf("errorMsg: %s\n", e.what());
     }
 
     return 0;

@@ -265,6 +265,18 @@
    "False"
   ],
   [
+   "docopt.cpp:boost_regex",
+   "False"
+  ],
+  [
+   "docopt.cpp:fPIC",
+   "True"
+  ],
+  [
+   "docopt.cpp:shared",
+   "False"
+  ],
+  [
    "fmt:fPIC",
    "True"
   ],
@@ -718,14 +730,6 @@
   ],
   [
    "tgbot:shared",
-   "False"
-  ],
-  [
-   "yaml-cpp:fPIC",
-   "True"
-  ],
-  [
-   "yaml-cpp:shared",
    "False"
   ],
   [

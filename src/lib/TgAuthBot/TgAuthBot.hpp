@@ -7,16 +7,21 @@
 #include <tgbot/tgbot.h>
 #include <spdlog/logger.h>
 
-class TgAuthBot : public TgBot::Bot {
-    public:
-        TgAuthBot(const std::string& apiKey, std::int64_t chatId, std::uint32_t timeout, const std::shared_ptr<spdlog::logger>& log);
-        bool isApproved(const std::string& prompt);
+namespace TgAuthBot {
+    class TgAuthBot : public TgBot::Bot {
+        public:
+            TgAuthBot(const std::string &apiKey, std::int64_t chatId, std::uint32_t timeout);
 
-    private:
-        template <typename B>
-        static typename B::Ptr _getButton(const std::string& text, const std::string& data);
-        static std::string _getUUID();
-        std::shared_ptr<spdlog::logger> _log;
-        std::int64_t _chatId;
-        std::chrono::seconds _timeout;
-};
+            bool isApproved(const std::string &prompt);
+
+        private:
+            template<typename B>
+            static typename B::Ptr _getButton(const std::string &text, const std::string &data);
+
+            static std::string _getUUID();
+
+            std::shared_ptr <spdlog::logger> _log;
+            std::int64_t _chatId;
+            std::chrono::seconds _timeout;
+    };
+}

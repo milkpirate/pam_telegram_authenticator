@@ -2,18 +2,17 @@
     arch=x86_64
     build_type=Release
     compiler=gcc
-    compiler.libcxx=libstdc++11
+    compiler.libcxx=libstdc++
     compiler.version=9
     os=Linux
 
 [requires]
     boost/1.Y.Z
+    docopt.cpp/0.6.3
     fmt/8.Y.Z
     libuuid/1.Y.Z
-    nlohmann_json/3.Y.Z
     spdlog/1.Y.Z
     tgbot/1.Y.Z
-    yaml-cpp/0.7.0
 
 [options]
 
@@ -23,23 +22,22 @@
     arch_build=x86_64
     build_type=Release
     compiler=gcc
-    compiler.libcxx=libstdc++11
+    compiler.libcxx=libstdc++
     compiler.version=9
     os=Linux
     os_build=Linux
 
 [full_requires]
-    boost/1.79.0:ca891ed5c8e67ebb3e46639c100abdbca6d8b11e
+    boost/1.79.0:adf48b8e4446dcb68f440fe42ff08878d5c7feed
     bzip2/1.0.8:da606cf731e334010b0bf6e85a2a6f891b9f36b0
-    fmt/8.1.1:db123017807f5c094e7ffe64463018510e127133
+    docopt.cpp/0.6.3:50a5030bbbb13ae56bc4be41915ecd48549cb895
+    fmt/8.1.1:30a9781670e6fb2f17b8355b17a15cf916045317
     libbacktrace/cci.20210118:6af9cc7cb931c5ad942174fd7838eb655717c709
     libcurl/7.84.0:9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49
     libuuid/1.0.3:6af9cc7cb931c5ad942174fd7838eb655717c709
-    nlohmann_json/3.10.5:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
     openssl/1.1.1q:6af9cc7cb931c5ad942174fd7838eb655717c709
-    spdlog/1.10.0:c2473343b93c984d1dc6f8dc53695396ffbb17cd
-    tgbot/1.3:b486882617329090761cfb38b12a7211b6ca929d
-    yaml-cpp/0.7.0:b911f48570f9bb2902d9e83b2b9ebf9d376c8c56
+    spdlog/1.10.0:cbf0d92fc1015167964a97a399fe91de4ffd209f
+    tgbot/1.3:b10e28eda90f865e8b9284c763f4ec694f06145c
     zlib/1.2.12:6af9cc7cb931c5ad942174fd7838eb655717c709
 
 [full_options]
@@ -109,6 +107,9 @@
     bzip2:build_executable=True
     bzip2:fPIC=True
     bzip2:shared=False
+    docopt.cpp:boost_regex=False
+    docopt.cpp:fPIC=True
+    docopt.cpp:shared=False
     fmt:fPIC=True
     fmt:header_only=False
     fmt:shared=False
@@ -223,8 +224,6 @@
     spdlog:wchar_support=False
     tgbot:fPIC=True
     tgbot:shared=False
-    yaml-cpp:fPIC=True
-    yaml-cpp:shared=False
     zlib:fPIC=True
     zlib:shared=False
 

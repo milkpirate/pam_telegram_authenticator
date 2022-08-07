@@ -1,28 +1,27 @@
 [includedirs]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/include
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include/uuid
-/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/include
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/include
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/include
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/include
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/include
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/include
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/include
 /home/pschroeder/.conan/data/libcurl/7.84.0/_/_/package/9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49/include
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/include
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/include
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/include
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/include
 /home/pschroeder/.conan/data/zlib/1.2.12/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include
 /home/pschroeder/.conan/data/bzip2/1.0.8/_/_/package/da606cf731e334010b0bf6e85a2a6f891b9f36b0/include
 /home/pschroeder/.conan/data/libbacktrace/cci.20210118/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include
 /home/pschroeder/.conan/data/openssl/1.1.1q/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include
 
 [libdirs]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/lib
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/lib
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/lib
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/lib
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/lib
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/lib
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/lib
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/lib
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/lib
 /home/pschroeder/.conan/data/libcurl/7.84.0/_/_/package/9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49/lib
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/lib
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/lib
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/lib
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/lib
 /home/pschroeder/.conan/data/zlib/1.2.12/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/lib
 /home/pschroeder/.conan/data/bzip2/1.0.8/_/_/package/da606cf731e334010b0bf6e85a2a6f891b9f36b0/lib
 /home/pschroeder/.conan/data/libbacktrace/cci.20210118/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/lib
@@ -37,12 +36,11 @@
 /home/pschroeder/.conan/data/libcurl/7.84.0/_/_/package/9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49/res
 
 [builddirs]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/
-/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/
 /home/pschroeder/.conan/data/libcurl/7.84.0/_/_/package/9d92ed8bb4f04d8fc308aec13e84ca18d2fa9c49/
 /home/pschroeder/.conan/data/zlib/1.2.12/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/
 /home/pschroeder/.conan/data/bzip2/1.0.8/_/_/package/da606cf731e334010b0bf6e85a2a6f891b9f36b0/
@@ -51,10 +49,10 @@
 /home/pschroeder/.conan/data/openssl/1.1.1q/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/
 
 [libs]
+docopt
 uuid
 TgBot
 spdlog
-yaml-cpp
 boost_contract
 boost_coroutine
 boost_fiber_numa
@@ -143,6 +141,72 @@ SPDLOG_COMPILED_LIB
 
 
 
+[includedirs_docopt.cpp]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/include
+
+[libdirs_docopt.cpp]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/lib
+
+[bindirs_docopt.cpp]
+
+
+[resdirs_docopt.cpp]
+
+
+[builddirs_docopt.cpp]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895/
+
+[libs_docopt.cpp]
+docopt
+
+[system_libs_docopt.cpp]
+m
+
+[defines_docopt.cpp]
+
+
+[cppflags_docopt.cpp]
+
+
+[cxxflags_docopt.cpp]
+
+
+[cflags_docopt.cpp]
+
+
+[sharedlinkflags_docopt.cpp]
+
+
+[exelinkflags_docopt.cpp]
+
+
+[sysroot_docopt.cpp]
+
+
+[frameworks_docopt.cpp]
+
+
+[frameworkdirs_docopt.cpp]
+
+
+[rootpath_docopt.cpp]
+/home/pschroeder/.conan/data/docopt.cpp/0.6.3/_/_/package/50a5030bbbb13ae56bc4be41915ecd48549cb895
+
+[name_docopt.cpp]
+docopt.cpp
+
+[version_docopt.cpp]
+0.6.3
+
+[generatornames_docopt.cpp]
+cmake_find_package=docopt
+cmake_find_package_multi=docopt
+pkg_config=docopt
+
+[generatorfilenames_docopt.cpp]
+
+
+
 [includedirs_libuuid]
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include
 /home/pschroeder/.conan/data/libuuid/1.0.3/_/_/package/6af9cc7cb931c5ad942174fd7838eb655717c709/include/uuid
@@ -208,77 +272,11 @@ pkg_config=uuid
 
 
 
-[includedirs_nlohmann_json]
-/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include
-
-[libdirs_nlohmann_json]
-
-
-[bindirs_nlohmann_json]
-
-
-[resdirs_nlohmann_json]
-
-
-[builddirs_nlohmann_json]
-/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/
-
-[libs_nlohmann_json]
-
-
-[system_libs_nlohmann_json]
-
-
-[defines_nlohmann_json]
-
-
-[cppflags_nlohmann_json]
-
-
-[cxxflags_nlohmann_json]
-
-
-[cflags_nlohmann_json]
-
-
-[sharedlinkflags_nlohmann_json]
-
-
-[exelinkflags_nlohmann_json]
-
-
-[sysroot_nlohmann_json]
-
-
-[frameworks_nlohmann_json]
-
-
-[frameworkdirs_nlohmann_json]
-
-
-[rootpath_nlohmann_json]
-/home/pschroeder/.conan/data/nlohmann_json/3.10.5/_/_/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
-
-[name_nlohmann_json]
-nlohmann_json
-
-[version_nlohmann_json]
-3.10.5
-
-[generatornames_nlohmann_json]
-cmake_find_package=nlohmann_json
-cmake_find_package_multi=nlohmann_json
-pkg_config=nlohmann_json
-
-[generatorfilenames_nlohmann_json]
-
-
-
 [includedirs_tgbot]
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/include
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/include
 
 [libdirs_tgbot]
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/lib
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/lib
 
 [bindirs_tgbot]
 
@@ -287,7 +285,7 @@ pkg_config=nlohmann_json
 
 
 [builddirs_tgbot]
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d/
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c/
 
 [libs_tgbot]
 TgBot
@@ -323,7 +321,7 @@ TgBot
 
 
 [rootpath_tgbot]
-/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b486882617329090761cfb38b12a7211b6ca929d
+/home/pschroeder/.conan/data/tgbot/1.3/_/_/package/b10e28eda90f865e8b9284c763f4ec694f06145c
 
 [name_tgbot]
 tgbot
@@ -339,10 +337,10 @@ tgbot
 
 
 [includedirs_spdlog]
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/include
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/include
 
 [libdirs_spdlog]
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/lib
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/lib
 
 [bindirs_spdlog]
 
@@ -351,7 +349,7 @@ tgbot
 
 
 [builddirs_spdlog]
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd/
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f/
 
 [libs_spdlog]
 spdlog
@@ -388,7 +386,7 @@ SPDLOG_COMPILED_LIB
 
 
 [rootpath_spdlog]
-/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/c2473343b93c984d1dc6f8dc53695396ffbb17cd
+/home/pschroeder/.conan/data/spdlog/1.10.0/_/_/package/cbf0d92fc1015167964a97a399fe91de4ffd209f
 
 [name_spdlog]
 spdlog
@@ -404,75 +402,11 @@ cmake_find_package_multi=spdlog
 
 
 
-[includedirs_yaml-cpp]
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/include
-
-[libdirs_yaml-cpp]
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/lib
-
-[bindirs_yaml-cpp]
-
-
-[resdirs_yaml-cpp]
-
-
-[builddirs_yaml-cpp]
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/
-
-[libs_yaml-cpp]
-yaml-cpp
-
-[system_libs_yaml-cpp]
-m
-
-[defines_yaml-cpp]
-
-
-[cppflags_yaml-cpp]
-
-
-[cxxflags_yaml-cpp]
-
-
-[cflags_yaml-cpp]
-
-
-[sharedlinkflags_yaml-cpp]
-
-
-[exelinkflags_yaml-cpp]
-
-
-[sysroot_yaml-cpp]
-
-
-[frameworks_yaml-cpp]
-
-
-[frameworkdirs_yaml-cpp]
-
-
-[rootpath_yaml-cpp]
-/home/pschroeder/.conan/data/yaml-cpp/0.7.0/_/_/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56
-
-[name_yaml-cpp]
-yaml-cpp
-
-[version_yaml-cpp]
-0.7.0
-
-[generatornames_yaml-cpp]
-
-
-[generatorfilenames_yaml-cpp]
-
-
-
 [includedirs_boost]
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/include
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/include
 
 [libdirs_boost]
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/lib
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/lib
 
 [bindirs_boost]
 
@@ -481,7 +415,7 @@ yaml-cpp
 
 
 [builddirs_boost]
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e/
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed/
 
 [libs_boost]
 boost_contract
@@ -561,7 +495,7 @@ BOOST_STACKTRACE_USE_NOOP
 
 
 [rootpath_boost]
-/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e
+/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed
 
 [name_boost]
 boost
@@ -645,12 +579,12 @@ cmake_find_package_multi=CURL
 
 
 [includedirs_fmt]
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/include
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/include
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/include
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/include
 
 [libdirs_fmt]
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/lib
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133/lib
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/lib
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317/lib
 
 [bindirs_fmt]
 
@@ -695,7 +629,7 @@ m
 
 
 [rootpath_fmt]
-/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/db123017807f5c094e7ffe64463018510e127133
+/home/pschroeder/.conan/data/fmt/8.1.1/_/_/package/30a9781670e6fb2f17b8355b17a15cf916045317
 
 [name_fmt]
 fmt
@@ -978,23 +912,21 @@ cmake_find_package_multi=OpenSSL
 [USER_boost]
 stacktrace_addr2line_available=True
 [USER_bzip2]
+[USER_docopt.cpp]
 [USER_fmt]
 [USER_libbacktrace]
 [USER_libcurl]
 [USER_libuuid]
-[USER_nlohmann_json]
 [USER_openssl]
 [USER_spdlog]
 [USER_tgbot]
-[USER_yaml-cpp]
 [USER_zlib]
+[ENV_docopt.cpp]
 [ENV_libuuid]
-[ENV_nlohmann_json]
 [ENV_tgbot]
 [ENV_spdlog]
-[ENV_yaml-cpp]
 [ENV_boost]
-BOOST_ROOT=/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/ca891ed5c8e67ebb3e46639c100abdbca6d8b11e
+BOOST_ROOT=/home/pschroeder/.conan/data/boost/1.79.0/_/_/package/adf48b8e4446dcb68f440fe42ff08878d5c7feed
 [ENV_libcurl]
 [ENV_fmt]
 [ENV_zlib]
